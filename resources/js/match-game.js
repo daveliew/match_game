@@ -39,7 +39,7 @@ MatchGame.renderCards = function(cardValues, $game) {
   var cardColors = ["hsl(25,85%,65%)", "hsl(55,85%,65%)", "hsl(90,85%,65%)", "hsl(160,85%,65%)", "hsl(220,85%,65%)", "hsl(265,85%,65%)", "hsl(310,85%,65%)", "hsl(360,85%,65%)"];
 
   $game.empty(); /* empty HTML */
-  $game.data('flippedCards',[]);
+  $game.data('flippedCards',[]); /* Track number of flippedCards */
 
   /* Loop through cardValues to create card objects */
   cardValues.forEach(function(value) {
@@ -78,7 +78,10 @@ MatchGame.flipCard = function($card, $game) {
   flippedCards.push($card);
 
   /* Conditionals for styling cards upon match */
+
+  /* Check if there are 2 active flippedCards */
   if (flippedCards.length === 2) {
+    /* Check if flippedCards values match each other */
     if (flippedCards[0].data('value') === flippedCards[1].data('value')) {
       var matched = {
         backgroundColor: 'rgb(153,153,153)',
@@ -89,16 +92,17 @@ MatchGame.flipCard = function($card, $game) {
       flippedCards[1].css(matched);
 
       } else {
+      /* Reset flippedCards to original styling */
         window.setTimeout(function() {
-          flippedCards[0].css('background-color', 'rgb(32, 64, 86)');
-          flippedCards[0].text('');
-          flippedCards[0].data('isFlipped',false);
-          flippedCards[1].css('background-color', 'rgb(32, 64, 86)');
-          flippedCards[1].text('');
-          flippedCards[1].data('isFlipped',false);
+          flippedCards[0].css('background-color', 'rgb(32, 64, 86)')
+            .text('')
+            .data('isFlipped',false);
+          flippedCards[1].css('background-color', 'rgb(32, 64, 86)')
+            .text('')
+            .data('isFlipped',false);
         }, 350);
       };
 
-    $game.data('flippedCards',[]);
+    $game.data('flippedCards',[]); /* Reset flippedCards tracker to 0 */
   };
 };
